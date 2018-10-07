@@ -1,0 +1,41 @@
+server:
+  port: ${SERVER_PORT:8080}
+spring:
+  security:
+    user:
+      password: 6bb1007a-0ffc-46c7-83eb-64942cd8d7e0
+  jpa:
+    generate-ddl: true
+  profiles:
+    active: "${CUSTOM_PROFILE:}"
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+---
+spring:
+  profiles: mysql
+  datasource:
+    url: jdbc:mysql://${HOSTNAME_DB:localhost}:${PORT_DB:3306}/smart_chair
+    driver-class-name: com.mysql.jdbc.Driver
+    username: ${USERNAME_DB}
+    password: ${PASSWORD_DB}
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL55Dialect
+
+---
+spring:
+  profiles: postgres
+  datasource:
+    url: "jdbc:postgresql://${HOSTNAME_DB:localhost}:${PORT_DB:3306}/perfdata"
+    driver-class-name: org.postgresql.Driver
+    username: ${USERNAME_DB}
+    password: ${PASSWORD_DB}
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.ProgressDialect

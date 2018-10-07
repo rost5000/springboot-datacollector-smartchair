@@ -1,0 +1,67 @@
+<html>
+<head>
+    <script src="/webjars/jquery/3.1.1/jquery.min.js"></script>
+    <script src="/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/simpleajax.js"></script>
+
+    <script type="text/javascript">
+
+	window.onload = function () {
+      fetchajax();
+      var dps = [{x: 1, y: 10}, {x: 2, y: 13}, {x: 3, y: 18}, {x: 4, y: 20}, {x: 5, y: 17},{x: 6, y: 10}, {x: 7, y: 13}, {x: 8, y: 18}, {x: 9, y: 20}, {x: 10, y: 17}];   //dataPoints.
+      dps = dataPoints[0];
+      var chart = new CanvasJS.Chart("chartContainer",{
+      	title :{
+      		text: "Live Data"
+      	},
+      	axisX: {
+      		title: "Axis X Title"
+      	},
+      	axisY: {
+      		title: "Units"
+      	},
+      	data: [{
+      		type: "line",
+      		dataPoints : dps
+      	}]
+      });
+
+      chart.render();
+      var updateInterval = 1000;
+      var xVal = dps.length + 1;
+      var yVal = 3;
+
+      var updateChart = function () {
+        yVal = yVal +  Math.round(5 + Math.random() *(-5-5));
+        fetchajax();
+        dps.push({x: xVal, y: yVal});
+        xVal = xVal + 1;
+      	chart.render();
+
+	// update chart after specified time.
+
+};
+
+setInterval(function(){updateChart()}, updateInterval);
+}
+</script>
+
+    <title>Wake up, Neo</title>
+
+    <link rel="stylesheet"
+          href="/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css" />
+
+
+</head>
+<body>
+<div class="container"><br/>
+    <div class="alert alert-success">
+        <a href="#" class="close" data-dismiss="alert"
+           aria-label="close">×</a>
+        <strong>Success!</strong> It is working as we expected.
+    </div>
+</div>
+<div id="chartContainer" style="height: 370px; width: 100%;"></div>
+<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>]
+</body>
+</html>
