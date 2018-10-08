@@ -135,6 +135,14 @@ curl  -H "Content-Type: application/json"  -d '[{"value" : 0.0,"dateCreated" : "
 Get Request:
 http://localhost:8080/pressure
 
+#### Additional API
+
+If you want to add an array of information of both types of sensor. Use an example:
+
+```
+curl  -H "Content-Type: application/json"  -d '[{ "pressure" : {"value" : 0.0,"dateCreated" : "2007-01-01","label" : "Some label","metaInfo" : "Meta info","peopleId" : "Name","typeSensor" : "type"}, "magnetometer" : {"x" : 0.0,"y" : 0.0,"z" : 0.0,"dateCreated" : "2007-01-01","label" : "Some Label","metaInfo" : "Some meta info","peopleId" : "Who is it?","typeSensor" : "type of sensor"}, "gyroscope" : {"x" : 0.0,"y" : 0.0,"z" : 0.0,"dateCreated" : "2007-01-01","label" : "Some Label","metaInfo" : "meta information","peopleId" : "Who is it?","typeSensor" : "type of sensor"}, "accelerometer" : {"linX":0.0,"linY":0.0,"linZ":0.0,"dateCreated":983394000000,"label":"Some label","metaInfo":"Some meta information","peopleId":"Who is it?","typeSensor":"Type of Sensor","ax":0.0,"ay":1.0,"az":1.0}}]' http://localhost:8080/api/collect_all
+```
+
 Links
 -----
 The application  is living in Amazon Cloud: http://smart-chair-iot-dev.us-east-1.elasticbeanstalk.com/

@@ -75,6 +75,17 @@ public class SimpleRestController {
         return "Well Done";
     }
 
+    @RequestMapping(value = "collect_all", method = RequestMethod.POST)
+    public String addAll(@RequestBody List<DataContainer>datas){
+        datas.forEach(data->{
+            pressureStorage.save(data.getPressure());
+            accelerometerStorage.save(data.getAccelerometer());
+            gyroScopeStorage.save(data.getGyroscope());
+            magnetometerStorage.save(data.getMagnetometer());
+        });
+        return "Well Done";
+    }
+
 
     @RequestMapping(value = "/test2", method = RequestMethod.GET)
     public List<List<Map<Object, Object>>>getCanvasData(){
@@ -96,12 +107,7 @@ public class SimpleRestController {
      * ]
      * </pre>
      * */
-    @RequestMapping(value = "/getAllInfo", method = RequestMethod.GET)
-    public List<Map<Object, Object>>getDataFromValue(
 
-            ){
-        return null;
-    }
 
 
 }
