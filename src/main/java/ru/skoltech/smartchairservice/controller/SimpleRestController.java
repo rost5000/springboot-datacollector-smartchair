@@ -2,12 +2,13 @@ package ru.skoltech.smartchairservice.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 import ru.skoltech.smartchairservice.model.*;
 
+import javax.validation.Valid;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -78,11 +79,53 @@ public class SimpleRestController {
     @RequestMapping(value = "collect_all", method = RequestMethod.POST)
     public String addAll(@RequestBody List<DataContainer>datas){
         datas.forEach(data->{
-            pressureStorage.save(data.getPressure());
-            accelerometerStorage.save(data.getAccelerometer());
-            gyroScopeStorage.save(data.getGyroscope());
-            magnetometerStorage.save(data.getMagnetometer());
+            if(data.getPressure() != null)
+                pressureStorage.save(data.getPressure());
+            if(data.getAccelerometer() != null)
+                accelerometerStorage.save(data.getAccelerometer());
+            if(data.getGyroscope() != null)
+                gyroScopeStorage.save(data.getGyroscope());
+            if(data.getMagnetometer() != null)
+                magnetometerStorage.save(data.getMagnetometer());
         });
+        return "Well Done";
+    }
+
+    @RequestMapping(value = "collect_all", method = RequestMethod.GET)
+    public String saveAllDataGet(@Valid CustomData data,  BindingResult bindingResult){
+        if(bindingResult.hasErrors())
+            return bindingResult.toString();
+        for (int i = 0; i != data.getAxAcc().length; i ++){
+            AccelerometerData accelerometerData = new AccelerometerData();
+            accelerometerData.setAX(data.getAxAcc()[i]);
+            accelerometerData.setAY(data.getAyAcc()[i]);
+            accelerometerData.setAZ(data.getAzAcc()[i]);
+
+            accelerometerData.setDateCreated(new Date(data.getDateCreated()));
+            accelerometerData.setLabel(data.getLabel());
+            accelerometerData.setMetaInfo(data.getMetaInfo());
+            accelerometerData.setPeopleId(data.getPeopleId());
+            accelerometerData.setTypeSensor(data.getTypeSensor());
+
+            this.accelerometerStorage.save(accelerometerData);
+
+            MagnetometerData magnetometerData = new MagnetometerData();
+            magnetometerData.setX(data.getAxM()[i]);
+            magnetometerData.setY(data.getAyM()[i]);
+            magnetometerData.setZ(data.getAzM()[i]);
+
+            magnetometerData.setDateCreated(new Date(data.getDateCreated()));
+            magnetometerData.setLabel(data.getLabel());
+            magnetometerData.setMetaInfo(data.getMetaInfo());
+            magnetometerData.setPeopleId(data.getPeopleId());
+            magnetometerData.setTypeSensor(data.getTypeSensor());
+
+            this.magnetometerStorage.save(magnetometerData);
+
+
+
+        }
+
         return "Well Done";
     }
 
