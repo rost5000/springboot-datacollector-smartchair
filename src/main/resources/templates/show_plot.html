@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="/webjars/jquery/3.1.1/jquery.min.js"></script>
+    <script src="/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/load_data.js"></script>
+    <script type="text/javascript" src="/js/chart_load.js"></script>
+    <script type="text/javascript" th:inline="javascript">
+    /*<![CDATA[*/
+    var num_elements = 100;
+    window.onload = function () {
+
+
+        var peopleId = /*[[${peopleId}]]*/ "";
+        var request_type = /*[[${requestType}]]*/ "";
+        console.log("fetching " + peopleId);
+        var response = load_data(peopleId, request_type);
+        if(response == null)
+            return;
+
+        var x = response[0];
+        var y = response[1];
+        var z = response[2];
+        var dpsX = [];
+        var delta_length = x.length - num_elements
+        if (delta_length > 0){
+            x = x.splice(0, delta_length);
+        }
+        var delta_length = y.length - num_elements;
+        if (delta_length > 0){
+            y = y.splice(0, delta_length);
+        }
+        var delta_length = z.length - num_elements;
+        if (delta_length > 0){
+            z = z.splice(0, delta_length);
+        }
+        charX = load_charts(x, "chartContainerX", {tittle: request_type, axis_x: "X"});
+        charY = load_charts(y, "chartContainerY", {tittle: request_type, axis_x: "Y"});
+        charZ = load_charts(z, "chartContainerZ", {tittle: request_type, axis_x: "Z"});
+
+      var updateChart = function () {
+        response = load_data_magnetometer(peopleId);
+        x1 = response[0];
+        y1 = response[1];
+        z1 = response[2];
+
+        for(var i = 0; i < x1.length; i++){
+         if (x1[i].x > x[x.length].x)
+            x.push(x1[i]);
+            y.push(y1[i]);
+            z.push(z1[i]);
+        }
+
+        var delta_length = x.length - num_elements
+        while (delta_length > 0){
+            x.shift();
+            delta_length--;
+        }
+        var delta_length = y.length - num_elements;
+        while (delta_length > 0){
+            y.shift();
+            delta_length--;
+        }
+        var delta_length = z.length - num_elements;
+        while (delta_length > 0){
+            z.shift();
+            delta_length--;
+        }
+
+        charX.render();
+        charY.render();
+        charZ.render();
+        };
+        // update chart after specified time.
+        setInterval(function(){updateChart()}, 2000);
+    }
+    /*]]>*/
+    </script>
+</head>
+<body>
+<div id="chartContainerX" style="height: 370px; width: 100%;"></div>
+<div id="chartContainerY" style="height: 370px; width: 100%;"></div>
+<div id="chartContainerZ" style="height: 370px; width: 100%;"></div>
+<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>]
+<script>
+function fun1() {
+    var rng=document.getElementById('r1'); //rng - это Input
+    num_elements = rng.value;
+}
+</script>
+<input type="range" id="r1" oninput="fun1()" min="50" max="500" value="100">
+</body>
+</html>

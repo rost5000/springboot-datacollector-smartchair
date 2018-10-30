@@ -26,7 +26,7 @@ public class AccelerometerData {
     private float linY;
     private float linZ;
 
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date dateCreated;
     private String label;
     private String metaInfo;

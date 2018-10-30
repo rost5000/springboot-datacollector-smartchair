@@ -17,7 +17,7 @@ public class PressureData {
 
     private float value;
 
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date dateCreated;
     private String label;
     private String metaInfo;

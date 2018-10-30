@@ -150,7 +150,9 @@ curl "http://localhost:8080/api/collect_all?axAcc=0&axAcc=1&ayAcc=0&ayAcc=1&azAc
 
 Links
 -----
-The application  is living in Amazon Cloud: http://smart-chair-iot-dev.us-east-1.elasticbeanstalk.com/
+The application  is living in Amazon Cloud: http://smart-chair-iot-dev.us-east-1.elasticbeanstalk.com
+
+Data transmitter and data analysis for python: https://github.com/Kichkun/smart_chair
 
 Feauters
 --------

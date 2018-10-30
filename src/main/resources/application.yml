@@ -31,7 +31,7 @@ spring:
 spring:
   profiles: postgres
   datasource:
-    url: "jdbc:postgresql://${HOSTNAME_DB:localhost}:${PORT_DB:3306}/perfdata"
+    url: jdbc:postgresql://${HOSTNAME_DB:localhost}:${PORT_DB:3306}/smart_chair
     driver-class-name: org.postgresql.Driver
     username: ${USERNAME_DB}
     password: ${PASSWORD_DB}

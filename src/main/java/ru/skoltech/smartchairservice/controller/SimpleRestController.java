@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.skoltech.smartchairservice.model.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -127,6 +128,39 @@ public class SimpleRestController {
         }
 
         return "Well Done";
+    }
+
+    @RequestMapping(value = "/plt_magnetometer")
+    public List<Object> getDataForPlot(@RequestParam("people")String peopleId){
+        List<Object>result = new ArrayList<Object>();
+        magnetometerStorage.findAll().forEach(data->{
+            if(peopleId.equals(data.getPeopleId())){
+                result.add(data);
+            }
+        });
+        return result;
+    }
+
+    @RequestMapping(value="/plot", method = RequestMethod.POST)
+    public List<Object> getDataForPlot(@RequestParam("table")String table,
+                                       @RequestParam("people")String peopleId
+                                       ){
+        List<Object>result = new ArrayList<Object>();
+        if(table.equals("accelerometer")){
+            accelerometerStorage.findAll().forEach(data->{
+                if(peopleId.equals(data.getPeopleId())){
+                    result.add(data);
+                }
+            });
+
+        }else if (table.equals("magnetometer")){
+            magnetometerStorage.findAll().forEach(data->{
+                if(peopleId.equals(data.getPeopleId())){
+                    result.add(data);
+                }
+            });
+        }
+        return result;
     }
 
 

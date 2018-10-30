@@ -19,7 +19,7 @@ public class GyroscopeData {
     private float y;
     private float z;
 
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date dateCreated;
     private String label;
     private String metaInfo;
